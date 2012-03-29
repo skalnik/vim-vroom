@@ -1,3 +1,18 @@
+" Init
+if exists("g:loaded_vroom") || &cp
+  finish
+endif
+let g:loaded_vroom = 1
+
+" Autoloadable functions
+function! vroom#RunTestFile()
+  call s:RunTestFile()
+endfunction
+
+function! vroom#RunNearestTest()
+  call s:RunNearestTest()
+endfunction
+
 function! s:RunTestFile(...)
   if a:0
     let command_suffix = a:1
@@ -45,13 +60,4 @@ endfunction
 function! s:SetTestFile()
   " Set the test file that tests will be run for.
   let s:test_file=@%
-endfunction
-
-" Available for Autoload
-function! vroom#RunTestFile()
-  call s:RunTestFile()
-endfunction
-
-function! vroom#RunNearestTest()
-  call s:RunNearestTest()
 endfunction
