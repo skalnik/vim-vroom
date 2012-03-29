@@ -22,15 +22,24 @@ function! s:RunNearestTest()
 endfunction
 
 function! s:RunTests(filename)
-  " Write the file and run tests for the given filename
-  :w
+  :w " Write the file
+  call s:CheckForGemfile()
+  " Run the right test for the given file
   if match(a:filename, '_spec.rb') != -1
-    exec ":!bundle exec rspec " . a:filename . " --no-color"
+    exec ":!" . s:bundle_exec ." rspec " . a:filename . " --no-color"
   elseif match(a:filename, '\.feature') != -1
-    exec ":!script/features " . a:filename
+    exec ":!" . s:bundle_exec ." script/features " . a:filename
   elseif match(a:filename, "_test.rb") != -1
-    exec ":!bundle exec ruby -Itest " . a:filename
+    exec ":!" . s:bundle_exec ." bundle exec ruby -Itest " . a:filename
   end
+endfunction
+
+function! s:CheckForGemfile()
+  if filereadable("Gemfile")
+    let s:bundle_exec = "bundle exec"
+  else
+    let s:bundle_exec = ""
+  endif
 endfunction
 
 function! s:SetTestFile()
