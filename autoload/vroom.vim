@@ -5,13 +5,13 @@ endif
 let g:loaded_vroom = 1
 
 " Public: Run current test file, or last test run
-function! vroom#RunTestFile()
+function vroom#RunTestFile()
   call s:RunTestFile()
 endfunction
 
 " Public: Run the nearest test in the current test file
 " Assumes your test framework supports filename:line# format
-function! vroom#RunNearestTest()
+function vroom#RunNearestTest()
   call s:RunNearestTest()
 endfunction
 
@@ -19,7 +19,7 @@ endfunction
 " next time the function is called in a non-test file, it runs the last test
 "
 " suffix - An optional command suffix
-function! s:RunTestFile(...)
+function s:RunTestFile(...)
   if a:0
     let command_suffix = a:1
   else
@@ -39,13 +39,13 @@ endfunction
 
 " Internal: Runs the current or last test with the currently selected line 
 " number
-function! s:RunNearestTest()
+function s:RunNearestTest()
   let spec_line_number = line('.')
   call s:RunTestFile(":" . spec_line_number)
 endfunction
 
 " Internal: Runs the test for a given filename
-function! s:RunTests(filename)
+function s:RunTests(filename)
   :w " Write the file
   call s:CheckForGemfile()
   " Run the right test for the given file
@@ -59,7 +59,7 @@ function! s:RunTests(filename)
 endfunction
 
 " Internal: Checks for Gemfile, and sets s:bundle_exec as necessary
-function! s:CheckForGemfile()
+function s:CheckForGemfile()
   if filereadable("Gemfile")
     let s:bundle_exec = "bundle exec "
   else
@@ -68,7 +68,7 @@ function! s:CheckForGemfile()
 endfunction
 
 " Internal: Sets s:test_file to current file
-function! s:SetTestFile()
+function s:SetTestFile()
   " Set the test file that tests will be run for.
   let s:test_file=@%
 endfunction
