@@ -52,7 +52,7 @@ function! s:RunTests(filename)
   if match(a:filename, '_spec.rb') != -1
     exec ":!" . s:bundle_exec ."rspec " . a:filename . " --no-color"
   elseif match(a:filename, '\.feature') != -1
-    exec ":!" . s:bundle_exec ."script/features " . a:filename
+    exec ":!" . s:bundle_exec ."./script/cucumber " . a:filename
   elseif match(a:filename, "_test.rb") != -1
     exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename
   end
