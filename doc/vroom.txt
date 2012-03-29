@@ -1,13 +1,32 @@
 *vroom.txt*    Helps you run your Ruby tests
 
-Author: Mike Skalnik <http://mikeskalnik.com>
-
 Run your Ruby tests. Run 1 over and over, then run the whole suite!
 
-                                        *<leader>r*
-<leader>r             Run the test file. Saves the one that was run, so next
-                      time you hit the key, it runs the same test again, unless
-                      you're in different test file.
+===============================================================================
+:VroomRunTestFile                                *VroomRunTestFile*
 
-                                        *<leader>R*
-<leader>R             Run the nearest test in the file. Only supported in RSpec.
+Runs the current file if it is a test. Otherwise, run the last test file that
+was run.
+
+===============================================================================
+:VroomRunNearestTest                             *VroomRunNearestTest*
+
+Runs the nearest test in the current file if it's a test. Otherwise, runs the
+last test that was run.
+
+===============================================================================
+g:vroom_map_keys                                 *vroom_map_keys*
+
+Map default keys to run tests
+
+Default: 1
+
+===============================================================================
+<leader>r                                        *<leader>r*
+
+Mapped to :VroomRunTestFile
+
+===============================================================================
+<leader>R                                        *<leader>R*
+
+Mapped to :VroomRunNearestTest
