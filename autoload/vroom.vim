@@ -50,18 +50,18 @@ function! s:RunTests(filename)
   call s:CheckForGemfile()
   " Run the right test for the given file
   if match(a:filename, '_spec.rb') != -1
-    exec ":!" . s:bundle_exec ." rspec " . a:filename . " --no-color"
+    exec ":!" . s:bundle_exec ."rspec " . a:filename . " --no-color"
   elseif match(a:filename, '\.feature') != -1
-    exec ":!" . s:bundle_exec ." script/features " . a:filename
+    exec ":!" . s:bundle_exec ."script/features " . a:filename
   elseif match(a:filename, "_test.rb") != -1
-    exec ":!" . s:bundle_exec ." bundle exec ruby -Itest " . a:filename
+    exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename
   end
 endfunction
 
 " Internal: Checks for Gemfile, and sets s:bundle_exec as necessary
 function! s:CheckForGemfile()
   if filereadable("Gemfile")
-    let s:bundle_exec = "bundle exec"
+    let s:bundle_exec = "bundle exec "
   else
     let s:bundle_exec = ""
   endif
