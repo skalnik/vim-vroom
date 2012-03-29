@@ -1,0 +1,13 @@
+*vroom.txt*    Helps you run your Ruby tests
+
+Author: Mike Skalnik <http://mikeskalnik.com>
+
+Run your Ruby tests. Run 1 over and over, then run the whole suite!
+
+                                        *<leader>r*
+<leader>r             Run the test file. Saves the one that was run, so next
+                      time you hit the key, it runs the same test again, unless
+                      you're in different test file.
+
+                                        *<leader>R*
+<leader>R             Run the nearest test in the file. Only supported in RSpec.
