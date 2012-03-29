@@ -23,3 +23,13 @@ Copy and paste:
 
     $ cd ~/.vim/bundle
     $ git clone 'git://github.com/skalnik/vim-vroom.git'
+
+
+Credit
+------
+
+I first stumbled upon this snippet of code in [Gary Bernhardt's
+.vimrc](https://github.com/garybernhardt/dotfiles/blob/master/.vimrc), and have
+modified it, turned it into a plugin and begun improving it. [Steven
+Harman](http://github.com/stevenharman) also provided inspiration in the
+creation of the plugin, cucumber support, and Gemfile detection.
