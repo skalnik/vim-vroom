@@ -15,6 +15,8 @@ Add the following to your `.vimrc` after vundle setup:
 
     Bundle 'skalnik/vim-vroom'
 
+and remember to run `:BundleInstall`.
+
 ### pathogen
 
 Copy and paste:
