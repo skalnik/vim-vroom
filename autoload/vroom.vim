@@ -6,7 +6,7 @@ function! s:RunTestFile(...)
   endif
 
   " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '_spec.rb$') != -1
+  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
 
   if in_test_file
     call s:SetTestFile()
@@ -24,9 +24,11 @@ endfunction
 function! s:RunTests(filename)
   " Write the file and run tests for the given filename
   :w
-  if isdirectory("spec")
+  if match(a:filename, '_spec.rb') != -1
     exec ":!bundle exec rspec " . a:filename . " --no-color"
-  elseif isdirectory("test")
+  elseif match(a:filename, '\.feature') != -1
+    exec ":!script/features " . a:filename
+  elseif match(a:filename, "_test.rb") != -1
     exec ":!bundle exec ruby -Itest " . a:filename
   end
 endfunction
