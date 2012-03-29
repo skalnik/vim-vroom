@@ -10,10 +10,10 @@ function! s:RunTestFile(...)
 
   if in_test_file
     call s:SetTestFile()
-  elseif !exists("s:smh_test_file")
+  elseif !exists("s:test_file")
     return
   end
-  call s:RunTests(s:smh_test_file . command_suffix)
+  call s:RunTests(s:test_file . command_suffix)
 endfunction
 
 function! s:RunNearestTest()
@@ -44,7 +44,7 @@ endfunction
 
 function! s:SetTestFile()
   " Set the test file that tests will be run for.
-  let s:smh_test_file=@%
+  let s:test_file=@%
 endfunction
 
 " Available for Autoload
