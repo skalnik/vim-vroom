@@ -4,6 +4,10 @@ if exists("g:loaded_vroom") || &cp
 endif
 let g:loaded_vroom = 1
 
+if !exists("g:vroom_use_colors")
+  let g:vroom_use_colors = 0
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -48,13 +52,14 @@ endfunction
 function s:RunTests(filename)
   :w " Write the file
   call s:CheckForGemfile()
+  call s:SetColorFlag()
   " Run the right test for the given file
   if match(a:filename, '_spec.rb') != -1
-    exec ":!" . s:bundle_exec ."rspec " . a:filename . " --no-color"
+    exec ":!" . s:bundle_exec ."rspec " . a:filename . s:color_flag
   elseif match(a:filename, '\.feature') != -1
-    exec ":!" . s:bundle_exec ."./script/cucumber " . a:filename . " --no-color"
+    exec ":!" . s:bundle_exec ."./script/cucumber " . a:filename . s:color_flag
   elseif match(a:filename, "_test.rb") != -1
-    exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename
+    exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename . s:color_flag
   end
 endfunction
 
@@ -71,4 +76,13 @@ endfunction
 function s:SetTestFile()
   " Set the test file that tests will be run for.
   let s:test_file=@%
+endfunction
+
+" Internal: Sets s:color_flag to the correct color flag as configured
+function s:SetColorFlag()
+  if g:vroom_use_colors
+    let s:color_flag = " --color"
+  else
+    let s:color_flag = " --no-color"
+  endif
 endfunction
