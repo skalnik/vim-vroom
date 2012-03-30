@@ -29,6 +29,20 @@ Map default keys to run tests
 Default: 1
 
 ===============================================================================
+g:vroom_clear_screen                             *vroom_clear_screen*
+
+Clear the screen before running tests
+
+Default: 1
+
+===============================================================================
+g:vroom_write_all                               *vroom_write_all*
+
+Write all file before running tests
+
+Default: 0 (write the current file)
+
+===============================================================================
 <leader>r                                        *<leader>r*
 
 Mapped to :VroomRunTestFile
