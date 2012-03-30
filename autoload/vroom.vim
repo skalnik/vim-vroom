@@ -43,13 +43,13 @@ function s:RunTestFile(...)
 
   if in_test_file
     call s:SetTestFile()
-  elseif !exists("s:test_file")
+  elseif !exists("t:vroom_test_file")
     return
   end
-  call s:RunTests(s:test_file . command_suffix)
+  call s:RunTests(t:vroom_test_file . command_suffix)
 endfunction
 
-" Internal: Runs the current or last test with the currently selected line 
+" Internal: Runs the current or last test with the currently selected line
 " number
 function s:RunNearestTest()
   let spec_line_number = line('.')
@@ -97,10 +97,10 @@ function s:CheckForGemfile()
   endif
 endfunction
 
-" Internal: Sets s:test_file to current file
+" Internal: Sets t:vroom_test_file to current file
 function s:SetTestFile()
   " Set the test file that tests will be run for.
-  let s:test_file=@%
+  let t:vroom_test_file=@%
 endfunction
 
 " Internal: Sets s:color_flag to the correct color flag as configured
