@@ -19,7 +19,7 @@ g:vroom_use_colors                               *vroom_use_colors*
 
 Run tests with or without colors
 
-Default: 0
+Default: 0 if GUI is running, 1 otherwise
 
 ===============================================================================
 g:vroom_map_keys                                 *vroom_map_keys*

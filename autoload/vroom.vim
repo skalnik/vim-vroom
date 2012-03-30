@@ -5,7 +5,7 @@ endif
 let g:loaded_vroom = 1
 
 if !exists("g:vroom_use_colors")
-  let g:vroom_use_colors = 0
+  let g:vroom_use_colors = !has('gui_running')
 endif
 
 if !exists("g:vroom_clear_screen")
