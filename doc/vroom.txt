@@ -29,6 +29,13 @@ Map default keys to run tests
 Default: 1
 
 ===============================================================================
+g:vroom_clear_screen                             *vroom_clear_screen*
+
+Clear the screen before running tests
+
+Default: 1
+
+===============================================================================
 <leader>r                                        *<leader>r*
 
 Mapped to :VroomRunTestFile

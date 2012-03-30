@@ -8,6 +8,10 @@ if !exists("g:vroom_use_colors")
   let g:vroom_use_colors = 0
 endif
 
+if !exists("g:vroom_clear_screen")
+  let g:vroom_clear_screen = 1
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -51,6 +55,7 @@ endfunction
 " Internal: Runs the test for a given filename
 function s:RunTests(filename)
   :w " Write the file
+  call s:ClearScreen()
   call s:CheckForGemfile()
   call s:SetColorFlag()
   " Run the right test for the given file
@@ -61,6 +66,13 @@ function s:RunTests(filename)
   elseif match(a:filename, "_test.rb") != -1
     exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename . s:color_flag
   end
+endfunction
+
+" Internal: Clear the screen prior to running specs
+function s:ClearScreen()
+  if g:vroom_clear_screen
+    :silent !clear
+  endif
 endfunction
 
 " Internal: Checks for Gemfile, and sets s:bundle_exec as necessary
