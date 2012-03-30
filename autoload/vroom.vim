@@ -8,6 +8,10 @@ if !exists("g:vroom_use_colors")
   let g:vroom_use_colors = 0
 endif
 
+if !exists("g:vroom_write_all")
+  let g:vroom_write_all = 0
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -50,7 +54,7 @@ endfunction
 
 " Internal: Runs the test for a given filename
 function s:RunTests(filename)
-  :w " Write the file
+  call s:WriteOrWriteAll()
   call s:CheckForGemfile()
   call s:SetColorFlag()
   " Run the right test for the given file
@@ -61,6 +65,15 @@ function s:RunTests(filename)
   elseif match(a:filename, "_test.rb") != -1
     exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename . s:color_flag
   end
+endfunction
+
+" Internal: Write or write all files
+function s:WriteOrWriteAll()
+  if g:vroom_write_all
+    :wall
+  else
+    :w
+  endif
 endfunction
 
 " Internal: Checks for Gemfile, and sets s:bundle_exec as necessary
