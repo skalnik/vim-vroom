@@ -12,6 +12,10 @@ if !exists("g:vroom_clear_screen")
   let g:vroom_clear_screen = 1
 endif
 
+if !exists("g:vroom_write_all")
+  let g:vroom_write_all = 0
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -54,8 +58,8 @@ endfunction
 
 " Internal: Runs the test for a given filename
 function s:RunTests(filename)
-  :w " Write the file
   call s:ClearScreen()
+  call s:WriteOrWriteAll()
   call s:CheckForGemfile()
   call s:SetColorFlag()
   " Run the right test for the given file
@@ -72,6 +76,15 @@ endfunction
 function s:ClearScreen()
   if g:vroom_clear_screen
     :silent !clear
+  endif
+endfunction
+
+" Internal: Write or write all files
+function s:WriteOrWriteAll()
+  if g:vroom_write_all
+    :wall
+  else
+    :w
   endif
 endfunction
 
