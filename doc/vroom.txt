@@ -1,53 +1,100 @@
 *vroom.txt*    Helps you run your Ruby tests
-
-Run your Ruby tests. Run 1 over and over, then run the whole suite!
-
-===============================================================================
-:VroomRunTestFile                                *VroomRunTestFile*
-
-Runs the current file if it is a test. Otherwise, run the last test file that
-was run.
+Author: Mike Skalnik <http://mikeskalnik.com>
+Version: 1.0
 
 ===============================================================================
-:VroomRunNearestTest                             *VroomRunNearestTest*
+CONTENTS                                                       *vroom-contents*
 
-Runs the nearest test in the current file if it's a test. Otherwise, runs the
-last test that was run.
+    Intro ..................................... |vroom-introduction|
+    Interface ................................. |vroom-interface|
+      Commands ................................ |vroom-commands|
+      Key Mappings ............................ |vroom-key-mappings|
+    Customization ............................. |vroom-customization|
+    License ................................... |vroom-license|
+    Changelog ................................. |vroom-changelog|
 
-===============================================================================
-g:vroom_use_colors                               *vroom_use_colors*
-
-Run tests with or without colors
-
-Default: 0 if GUI is running, 1 otherwise
-
-===============================================================================
-g:vroom_map_keys                                 *vroom_map_keys*
-
-Map default keys to run tests
-
-Default: 1
 
 ===============================================================================
-g:vroom_clear_screen                             *vroom_clear_screen*
+INTRO                                                             *vroom-intro*
 
-Clear the screen before running tests
+Vroom is a plugin for running you Ruby tests, specs, and features. It allows
+you to speed up your development since you don't have to jump around to
+different windows or tabs.
 
-Default: 1
-
-===============================================================================
-g:vroom_write_all                               *vroom_write_all*
-
-Write all file before running tests
-
-Default: 0 (write the current file)
+If you're hacking away on your awesome Ruby app, and you open your spec, you
+can easily run the whole file by hitting <Leader>r, or nearest test with
+<Leader>R. This is then remembered, so if you switch back to your code, you
+can then hit <Leader>r again and that last test will be run.
 
 ===============================================================================
-<leader>r                                        *<leader>r*
+INTERFACE                                                     *vroom-interface*
 
-Mapped to :VroomRunTestFile
+-------------------------------------------------------------------------------
+COMMANDS                                                       *vroom-commands*
+
+:VroomRunTestFile                                            *VroomRunTestFile*
+                        Runs the current file if it is a test. Otherwise, run
+                        the last test file that was run.
+
+:VroomRunNearestTest                                      *VroomRunNearestTest*
+
+                        Runs the nearest test in the current file if it's a
+                        test. Otherwise, runs the last test that was run.
+
+-------------------------------------------------------------------------------
+KEY MAPPINGS                                               *vroom-key-mappings*
+
+By default vroom maps <Leader>r to mapped to |VroomRunTestFile| and <Leader>R is
+mapped to |VroomRunNearestTest|. This can be turned off by simply putting `let
+g:vroom_map_keys = 0` in your vimrc
 
 ===============================================================================
-<leader>R                                        *<leader>R*
+CUSTOMIZATION                                             *vroom-customization*
 
-Mapped to :VroomRunNearestTest
+g:vroom_use_colors                                           *vroom_use_colors*
+                        Run tests with or without colors
+                        Default: 0 if GUI is running, 1 otherwise
+
+g:vroom_map_keys                                               *vroom_map_keys*
+                        Map default keys to run tests
+                        Default: 1
+
+g:vroom_clear_screen                                       *vroom_clear_screen*
+                        Clear the screen before running tests
+                        Default: 1
+
+g:vroom_write_all                                             *vroom_write_all*
+                        Write all file before running tests
+                        Default: 0 (write the current file)
+
+===============================================================================
+LICENSE                                                         *vroom-license*
+
+Copyright (c) 2012 Mike Skalnik
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===============================================================================
+CHANGELOG                                                     *vroom-changelog*
+
+1.0.0                                                    *vroom-changelog-1.0.0*
+      * Initial Release
+
+==============================================================================
+vim:tw=79:ft=help:norl:fen:fdl=0:fdm=marker:
