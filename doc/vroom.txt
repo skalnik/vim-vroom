@@ -1,6 +1,6 @@
 *vroom.txt*    Helps you run your Ruby tests
 Author: Mike Skalnik <http://mikeskalnik.com>
-Version: 1.0
+Version: 1.0.1
 
 ===============================================================================
 CONTENTS                                                       *vroom-contents*
@@ -92,6 +92,15 @@ SOFTWARE.
 
 ===============================================================================
 CHANGELOG                                                     *vroom-changelog*
+
+1.0.1
+      * Support for writing all files before running tests (off by default)
+      * Clears screen before running tests (on by default)
+      * Scopes test remembered to the current tab, instead of that instance of
+        Vim
+      * Colors now default to on in terminal, off in gvim
+      * Suppress error if existing maps exist
+      * Fix test unit bug with colors
 
 1.0.0                                                    *vroom-changelog-1.0.0*
       * Initial Release
