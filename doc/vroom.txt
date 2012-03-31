@@ -15,7 +15,7 @@ CONTENTS                                                       *vroom-contents*
 
 
 ===============================================================================
-INTRO                                                             *vroom-intro*
+INTRO                                                      *vroom-introduction*
 
 Vroom is a plugin for running you Ruby tests, specs, and features. It allows
 you to speed up your development since you don't have to jump around to
