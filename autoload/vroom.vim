@@ -16,6 +16,10 @@ if !exists("g:vroom_write_all")
   let g:vroom_write_all = 0
 endif
 
+if !exists("g:vroom_cucumber_path")
+  let g:vroom_cucumber_path = './script/cucumber '
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -66,7 +70,7 @@ function s:RunTests(filename)
   if match(a:filename, '_spec.rb') != -1
     exec ":!" . s:bundle_exec ."rspec " . a:filename . s:color_flag
   elseif match(a:filename, '\.feature') != -1
-    exec ":!" . s:bundle_exec ."./script/cucumber " . a:filename . s:color_flag
+    exec ":!" . s:bundle_exec .g:vroom_cucumber_path . a:filename . s:color_flag
   elseif match(a:filename, "_test.rb") != -1
     exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename
   end
