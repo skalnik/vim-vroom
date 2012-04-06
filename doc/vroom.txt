@@ -67,7 +67,7 @@ g:vroom_write_all                                             *vroom_write_all*
                         Write all file before running tests
                         Default: 0 (write the current file)
 
-g:vroom_cucumber_path                                      vroom_cucumber_path
+g:vroom_cucumber_path                                     *vroom_cucumber_path*
                         If set, the path for the executable
                         used for *.feature files.
                         Default: './script/cucumber '
