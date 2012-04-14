@@ -20,6 +20,10 @@ if !exists("g:vroom_cucumber_path")
   let g:vroom_cucumber_path = './script/cucumber '
 endif
 
+if !exists("g:vroom_detect_spec_helper")
+  let g:vroom_detect_spec_helper = 0
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -94,10 +98,31 @@ endfunction
 
 " Internal: Checks for Gemfile, and sets s:bundle_exec as necessary
 function s:CheckForGemfile()
-  if filereadable("Gemfile")
+  if s:GemfileExists()
     let s:bundle_exec = "bundle exec "
   else
     let s:bundle_exec = ""
+  endif
+endfunction
+
+" Internal: Checks for 'spec_helper' in file and Gemfile existance, and sets
+"           s:bundle_execs as necessary
+function s:CheckForSpecHelper(filename)
+  if g:vroom_detect_spec_helper &&
+        \match(readfile(a:filename, '', 1)[0], 'spec_helper') != -1 &&
+        \s:GemfileExists()
+    let s:bundle_exec = "bundle exec "
+  else
+    let s:bundle_exec = ""
+  endif
+endfunction
+
+" Internal: Check if there is a Gemfile in the current working directory
+function s:GemfileExists()
+  if filereadable("Gemfile")
+    return 1
+  else
+    return 0
   endif
 endfunction
 

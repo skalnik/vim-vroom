@@ -72,6 +72,11 @@ g:vroom_cucumber_path                                     *vroom_cucumber_path*
                         used for *.feature files.
                         Default: './script/cucumber '
 
+g:vroom_detect_spec_helper                           *vroom_detect_spec_helper*
+                        Only run `bundle exec` if first line of the spec file
+                        requires 'spec_helper'
+                        Default: 0
+
 ===============================================================================
 LICENSE                                                         *vroom-license*
 
@@ -100,6 +105,7 @@ CHANGELOG                                                     *vroom-changelog*
 
 1.0.2                                                    *vroom-changelog-1.0.2*
       * Support configuration of cucumber runner
+      * Can skip `bundle exec` if not requiring 'spec_helper'
 
 1.0.1                                                    *vroom-changelog-1.0.1*
       * Support for writing all files before running tests (off by default)
