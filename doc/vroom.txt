@@ -77,6 +77,9 @@ g:vroom_detect_spec_helper                           *vroom_detect_spec_helper*
                         requires 'spec_helper'
                         Default: 0
 
+g:vroom_use_vimux                                             *vroom_use_vimux*
+                        Run tests using the vimux plugin
+
 ===============================================================================
 LICENSE                                                         *vroom-license*
 
@@ -102,6 +105,9 @@ SOFTWARE.
 
 ===============================================================================
 CHANGELOG                                                     *vroom-changelog*
+
+1.0.3                                                    *vroom-changelog-1.0.3*
+      * Support for vimux (run tests in tmux shell)
 
 1.0.2                                                    *vroom-changelog-1.0.2*
       * Support configuration of cucumber runner

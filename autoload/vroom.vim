@@ -24,6 +24,10 @@ if !exists("g:vroom_detect_spec_helper")
   let g:vroom_detect_spec_helper = 0
 endif
 
+if !exists("g:vroom_use_vimux")
+  let g:vroom_use_vimux = 0
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -66,17 +70,29 @@ endfunction
 
 " Internal: Runs the test for a given filename
 function s:RunTests(filename)
-  call s:ClearScreen()
+  if ! g:vroom_use_vimux
+    call s:ClearScreen()
+  end
+
   call s:WriteOrWriteAll()
   call s:CheckForGemfile()
   call s:SetColorFlag()
   " Run the right test for the given file
   if match(a:filename, '_spec.rb') != -1
-    exec ":!" . s:bundle_exec ."rspec " . a:filename . s:color_flag
+    call s:Run(s:bundle_exec ."rspec " . a:filename . s:color_flag)
   elseif match(a:filename, '\.feature') != -1
-    exec ":!" . s:bundle_exec .g:vroom_cucumber_path . a:filename . s:color_flag
+    call s:Run(s:bundle_exec .g:vroom_cucumber_path . a:filename . s:color_flag)
   elseif match(a:filename, "_test.rb") != -1
-    exec ":!" . s:bundle_exec ."ruby -Itest " . a:filename
+    call s:Run(s:bundle_exec ."ruby -Itest " . a:filename)
+  end
+endfunction
+
+" Internal: Runs a command though vim or vmux
+function s:Run(cmd)
+  if g:vroom_use_vimux
+    call RunVimTmuxCommand(a:cmd)
+  else
+    exec ":!" . a:cmd
   end
 endfunction
 
