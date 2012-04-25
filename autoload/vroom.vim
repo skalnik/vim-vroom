@@ -32,11 +32,13 @@ if !exists("g:vroom_use_bundle_exec")
   let g:vroom_use_bundle_exec = 1
 endif
 
-" If we are using binstubs, we usually don't want to bundle exec.
+" If we are using binstubs, we usually don't want to bundle exec.  Note that
+" this has to come before the g:vroom_use_binstubs variable is set below.
 if exists("g:vroom_use_binstubs")
   let g:vroom_use_bundle_exec = 0
 endif
 
+" Binstubs aren't used by default
 if !exists("g:vroom_use_binstubs")
   let g:vroom_use_binstubs = 0
 endif
