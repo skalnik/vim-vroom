@@ -28,6 +28,25 @@ if !exists("g:vroom_use_vimux")
   let g:vroom_use_vimux = 0
 endif
 
+if !exists("g:vroom_use_bundle_exec")
+  let g:vroom_use_bundle_exec = 1
+endif
+
+" If we are using binstubs, we usually don't want to bundle exec.  Note that
+" this has to come before the g:vroom_use_binstubs variable is set below.
+if exists("g:vroom_use_binstubs")
+  let g:vroom_use_bundle_exec = 0
+endif
+
+" Binstubs aren't used by default
+if !exists("g:vroom_use_binstubs")
+  let g:vroom_use_binstubs = 0
+endif
+
+if !exists("g:vroom_binstubs_path")
+  let g:vroom_binstubs_path = './bin'
+endif
+
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
   call s:RunTestFile()
@@ -75,15 +94,15 @@ function s:RunTests(filename)
   end
 
   call s:WriteOrWriteAll()
-  call s:CheckForGemfile()
+  call s:SetTestRunnerPrefix()
   call s:SetColorFlag()
   " Run the right test for the given file
   if match(a:filename, '_spec.rb') != -1
-    call s:Run(s:bundle_exec ."rspec " . a:filename . s:color_flag)
+    call s:Run(s:test_runner_prefix ."rspec " . a:filename . s:color_flag)
   elseif match(a:filename, '\.feature') != -1
-    call s:Run(s:bundle_exec .g:vroom_cucumber_path . a:filename . s:color_flag)
+    call s:Run(s:test_runner_prefix .g:vroom_cucumber_path . a:filename . s:color_flag)
   elseif match(a:filename, "_test.rb") != -1
-    call s:Run(s:bundle_exec ."ruby -Itest " . a:filename)
+    call s:Run(s:test_runner_prefix ."ruby -Itest " . a:filename)
   end
 endfunction
 
@@ -112,24 +131,43 @@ function s:WriteOrWriteAll()
   endif
 endfunction
 
-" Internal: Checks for Gemfile, and sets s:bundle_exec as necessary
+" Internal: Set s:test_runner_prefix variable
+function s:SetTestRunnerPrefix()
+  let s:test_runner_prefix = ''
+  call s:IsUsingBundleExec()
+  call s:IsUsingBinstubs()
+endfunction
+
+" Internal: Check for a Gemfile if we are using `bundle exec`
+function s:IsUsingBundleExec()
+  if g:vroom_use_bundle_exec
+    call s:CheckForGemfile()
+  endif
+endfunction
+
+" Internal: Set s:test_runner_prefix variable if using binstubs
+function s:IsUsingBinstubs()
+  if g:vroom_use_binstubs
+    let s:test_runner_prefix = g:vroom_binstubs_path . '/'
+  endif
+endfunction
+
+" Internal: Checks for Gemfile, and sets s:test_runner_prefix as necessary
 function s:CheckForGemfile()
   if s:GemfileExists()
-    let s:bundle_exec = "bundle exec "
-  else
-    let s:bundle_exec = ""
+    let s:test_runner_prefix = "bundle exec "
   endif
 endfunction
 
 " Internal: Checks for 'spec_helper' in file and Gemfile existance, and sets
-"           s:bundle_execs as necessary
+"           s:test_runner_prefixs as necessary
 function s:CheckForSpecHelper(filename)
   if g:vroom_detect_spec_helper &&
         \match(readfile(a:filename, '', 1)[0], 'spec_helper') != -1 &&
         \s:GemfileExists()
-    let s:bundle_exec = "bundle exec "
+    let s:test_runner_prefix = "bundle exec "
   else
-    let s:bundle_exec = ""
+    let s:test_runner_prefix = ""
   endif
 endfunction
 

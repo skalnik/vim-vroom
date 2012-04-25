@@ -80,6 +80,26 @@ g:vroom_detect_spec_helper                           *vroom_detect_spec_helper*
 g:vroom_use_vimux                                             *vroom_use_vimux*
                         Run tests using the vimux plugin
 
+g:vroom_use_bundle_exec                                 *vroom_use_bundle_exec*
+                        When appropriate (see |vroom_detect_spec_helper|) use
+                        `bundle exec` before test runner command.  If set to
+                        1, `bundle exec` is never used.
+                        Default: 0
+
+g:vroom_use_binstubs                                       *vroom_use_binstubs*
+                        If set to 1, lets Vroom know you are using binstubs.
+                        This means (a) the call to your test runner will be
+                        prefixed with your binstubs directory (see
+                        |vroom_binstubs_path|), and (b) `bundle exec` will
+                        never be called (see |vroom_use_bundle_exec|).
+                        Default: 0
+
+g:vroom_binstubs_path                                     *vroom_binstubs_path*
+                        If using binstubs, the directory where your binstubs
+                        are installed.  The forward slash gets added
+                        automatically and should not be included.
+                        Default: './bin'
+
 ===============================================================================
 LICENSE                                                         *vroom-license*
 
