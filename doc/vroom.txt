@@ -17,7 +17,7 @@ CONTENTS                                                       *vroom-contents*
 ===============================================================================
 INTRO                                                      *vroom-introduction*
 
-Vroom is a plugin for running you Ruby tests, specs, and features. It allows
+Vroom is a plugin for running your Ruby tests, specs, and features. It allows
 you to speed up your development since you don't have to jump around to
 different windows or tabs.
 
@@ -44,9 +44,9 @@ COMMANDS                                                       *vroom-commands*
 -------------------------------------------------------------------------------
 KEY MAPPINGS                                               *vroom-key-mappings*
 
-By default vroom maps <Leader>r to mapped to |VroomRunTestFile| and <Leader>R is
-mapped to |VroomRunNearestTest|. This can be turned off by simply putting `let
-g:vroom_map_keys = 0` in your vimrc
+By default vroom maps <Leader>r to |VroomRunTestFile| and <Leader>R to
+|VroomRunNearestTest|. This can be turned off by simply putting `let
+g:vroom_map_keys = 0` in your vimrc.
 
 ===============================================================================
 CUSTOMIZATION                                             *vroom-customization*
