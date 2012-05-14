@@ -4,6 +4,10 @@ if exists("g:loaded_vroom") || &cp
 endif
 let g:loaded_vroom = 1
 
+if !exists("g:vroom_spec_command")
+  let g:vroom_spec_command = 'rspec '
+endif
+
 if !exists("g:vroom_use_colors")
   let g:vroom_use_colors = !has('gui_running')
 endif
@@ -98,7 +102,8 @@ function s:RunTests(filename)
   call s:SetColorFlag()
   " Run the right test for the given file
   if match(a:filename, '_spec.rb') != -1
-    call s:Run(s:test_runner_prefix ."rspec " . a:filename . s:color_flag)
+"    call s:Run(s:test_runner_prefix ."rspec " . a:filename . s:color_flag)
+    call s:Run(s:test_runner_prefix .g:vroom_spec_command . a:filename . s:color_flag)
   elseif match(a:filename, '\.feature') != -1
     call s:Run(s:test_runner_prefix .g:vroom_cucumber_path . a:filename . s:color_flag)
   elseif match(a:filename, "_test.rb") != -1
