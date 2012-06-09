@@ -135,8 +135,6 @@ function s:DetermineRunner(filename)
     return s:test_runner_prefix . g:vroom_spec_command . s:color_flag
   elseif match(a:filename, '\.feature') != -1
     return s:Run(s:test_runner_prefix . g:vroom_cucumber_path . s:color_flag
-  elseif match(a:filename, "_test.rb") != -1 && g:vroom_use_bundle_exec == 1
-    return s:test_runner_prefix . "ruby -Itest"
   elseif match(a:filename, "_test.rb") != -1
     return "ruby -Itest"
   end
