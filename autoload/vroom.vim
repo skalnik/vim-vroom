@@ -265,17 +265,17 @@ function s:RunTestsCustom(filename, args)
   let opts          = get(a:args, 'options', ''                          )
   let line_number   = get(a:args, 'line',    ''                          )
 
-  call s:PrepareToRunTests
+  call s:PrepareToRunTests()
 
-  call s:Run(runner . ' ' . opts . ' ' . a:filename . line_number . s:color_flag)
+  call s:Run(runner . ' ' . opts . ' ' . a:filename . line_number)
 endfunction
 
 " Internal: Get the right test runner for the file.
 function s:DetermineRunner(filename)
   if match(a:filename, '_spec.rb') != -1
-    return s:test_runner_prefix . "rspec"
+    return s:test_runner_prefix . "rspec" . s:color_flag
   elseif match(a:filename, '\.feature') != -1
-    return s:Run(s:test_runner_prefix .g:vroom_cucumber_path
+    return s:Run(s:test_runner_prefix . g:vroom_cucumber_path . s:color_flag
   elseif match(a:filename, "_test.rb") != -1 && g:vroom_use_bundle_exec == 1
     return s:test_runner_prefix . "ruby -Itest"
   elseif match(a:filename, "_test.rb") != -1
