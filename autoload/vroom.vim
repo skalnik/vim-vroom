@@ -57,13 +57,32 @@ endif
 
 " Public: Run current test file, or last test run
 function vroom#RunTestFile()
-  call s:RunTestFile()
+  call s:RunTestFile({})
 endfunction
 
 " Public: Run the nearest test in the current test file
 " Assumes your test framework supports filename:line# format
 function vroom#RunNearestTest()
-  call s:RunNearestTest()
+  call s:RunNearestTest({})
+endfunction
+
+" Public: Run current test file, or last test run with custom options.
+"
+" args     - options for running the tests:
+"            'runner': the test runner to use (e.g., 'm')
+"            'opts': any additional options (e.g., '--drb')
+function vroom#RunTestFileCustom(args)
+  call s:RunTestFile(a:args)
+endfunction
+
+" Public: Run the nearest test in the current test file
+" Assumes your test framework supports filename:line# format
+"
+" args     - options for running the tests:
+"            'runner': the test runner to use (e.g., 'm')
+"            'opts': any additional options (e.g., '--drb')
+function vroom#RunNearestTestCustom(args)
+  call s:RunNearestTest(a:args)
 endfunction
 
 " }}}
@@ -71,15 +90,7 @@ endfunction
 
 " Internal: Runs the current file as a test. Also saves the current file, so
 " next time the function is called in a non-test file, it runs the last test
-"
-" suffix - An optional command suffix
-function s:RunTestFile(...)
-  if a:0
-    let command_suffix = a:1
-  else
-    let command_suffix = ""
-  endif
-
+function s:RunTestFile(args)
   " Run the tests for the previously-marked file.
   let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
 
@@ -88,18 +99,53 @@ function s:RunTestFile(...)
   elseif !exists("t:vroom_test_file")
     return
   end
-  call s:RunTests(t:vroom_test_file . command_suffix)
+
+  call s:RunTests(t:vroom_test_file, a:args)
 endfunction
 
 " Internal: Runs the current or last test with the currently selected line
 " number
-function s:RunNearestTest()
-  let spec_line_number = line('.')
-  call s:RunTestFile(":" . spec_line_number)
+function s:RunNearestTest(args)
+  let spec_line_number = ':' . line('.')
+  let updated_args = extend(a:args, {'line':spec_line_number })
+
+  call s:RunTestFile(updated_args)
 endfunction
 
-" Internal: Runs the test for a given filename
-function s:RunTests(filename)
+" Internal: Runs the test for a given file.
+"
+" filename - a filename.
+" args     - options for running the tests:
+"            'runner': the test runner to use (e.g., 'm')
+"            'opts': any additional options (e.g., '--drb')
+"            'line_number': the line number of the test to run (e.g., ':4')
+function s:RunTests(filename, args)
+  call s:PrepareToRunTests()
+
+  let runner        = get(a:args, 'runner', s:DetermineRunner(a:filename))
+  let opts          = get(a:args, 'options', ''                          )
+  let line_number   = get(a:args, 'line',    ''                          )
+
+  call s:Run(runner . ' ' . opts . ' ' . a:filename . line_number)
+endfunction
+
+" Internal: Get the right test runner for the file.
+function s:DetermineRunner(filename)
+  if match(a:filename, '_spec.rb') != -1
+    return s:test_runner_prefix . g:vroom_spec_command . s:color_flag
+  elseif match(a:filename, '\.feature') != -1
+    return s:Run(s:test_runner_prefix . g:vroom_cucumber_path . s:color_flag
+  elseif match(a:filename, "_test.rb") != -1 && g:vroom_use_bundle_exec == 1
+    return s:test_runner_prefix . "ruby -Itest"
+  elseif match(a:filename, "_test.rb") != -1
+    return "ruby -Itest"
+  end
+endfunction
+
+" Internal: Perform all the steps we need to perform before actually running
+" the tests: clear the screen, write the files, set the test_runner_prefix,
+" set the color_flag.
+function s:PrepareToRunTests()
   if ! g:vroom_use_vimux
     call s:ClearScreen()
   end
@@ -107,15 +153,6 @@ function s:RunTests(filename)
   call s:WriteOrWriteAll()
   call s:SetTestRunnerPrefix()
   call s:SetColorFlag()
-  " Run the right test for the given file
-  if match(a:filename, '_spec.rb') != -1
-"    call s:Run(s:test_runner_prefix ."rspec " . a:filename . s:color_flag)
-    call s:Run(s:test_runner_prefix .g:vroom_spec_command . a:filename . s:color_flag)
-  elseif match(a:filename, '\.feature') != -1
-    call s:Run(s:test_runner_prefix .g:vroom_cucumber_path . a:filename . s:color_flag)
-  elseif match(a:filename, "_test.rb") != -1
-    call s:Run(s:test_runner_prefix ."ruby -Itest " . a:filename)
-  end
 endfunction
 
 " Internal: Runs a command though vim or vmux
@@ -142,6 +179,9 @@ function s:WriteOrWriteAll()
     :w
   endif
 endfunction
+
+" }}}
+" Settings (functions to determine) {{{
 
 " Internal: Set s:test_runner_prefix variable
 function s:SetTestRunnerPrefix()
@@ -205,95 +245,6 @@ function s:SetColorFlag()
   else
     let s:color_flag = " --no-color"
   endif
-endfunction
-
-
-
-" Public: Run current test file, or last test run
-"
-" args     - options for running the tests:
-"            'runner': the test runner to use (e.g., 'm')
-"            'opts': any additional options (e.g., '--drb')
-function vroom#RunTestFileCustom(args)
-  call s:RunTestFileCustom(a:args)
-endfunction
-
-" Public: Run the nearest test in the current test file
-" Assumes your test framework supports filename:line# format
-"
-" args     - options for running the tests:
-"            'runner': the test runner to use (e.g., 'm')
-"            'opts': any additional options (e.g., '--drb')
-function vroom#RunNearestTestCustom(args)
-  call s:RunNearestTestCustom(a:args)
-endfunction
-
-" Internal: Runs the current file as a test. Also saves the current file, so
-" next time the function is called in a non-test file, it runs the last test
-"
-function s:RunTestFileCustom(args)
-  " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
-
-  if in_test_file
-    call s:SetTestFile()
-  elseif !exists("t:vroom_test_file")
-    return
-  end
-
-  call s:RunTestsCustom(t:vroom_test_file, a:args)
-endfunction
-
-" Internal: Runs the current or last test with the currently selected line
-" number
-function s:RunNearestTestCustom(args)
-  let spec_line_number = ':' . line('.')
-  let updated_args = extend(a:args, {'line':spec_line_number })
-
-  call s:RunTestFileCustom(updated_args)
-endfunction
-
-" Internal: Runs the test for a given file.
-"
-" filename - a filename.
-" args     - options for running the tests:
-"            'runner': the test runner to use (e.g., 'm')
-"            'opts': any additional options (e.g., '--drb')
-"            'line_number': the line number of the test to run (e.g., ':4')
-function s:RunTestsCustom(filename, args)
-  let runner        = get(a:args, 'runner', s:DetermineRunner(a:filename))
-  let opts          = get(a:args, 'options', ''                          )
-  let line_number   = get(a:args, 'line',    ''                          )
-
-  call s:PrepareToRunTests()
-
-  call s:Run(runner . ' ' . opts . ' ' . a:filename . line_number)
-endfunction
-
-" Internal: Get the right test runner for the file.
-function s:DetermineRunner(filename)
-  if match(a:filename, '_spec.rb') != -1
-    return s:test_runner_prefix . "rspec" . s:color_flag
-  elseif match(a:filename, '\.feature') != -1
-    return s:Run(s:test_runner_prefix . g:vroom_cucumber_path . s:color_flag
-  elseif match(a:filename, "_test.rb") != -1 && g:vroom_use_bundle_exec == 1
-    return s:test_runner_prefix . "ruby -Itest"
-  elseif match(a:filename, "_test.rb") != -1
-    return "ruby -Itest"
-  end
-endfunction
-
-" Internal: Perform all the steps we need to perform before actually running
-" the tests: clear the screen, write the files, set the test_runner_prefix,
-" set the color_flag.
-function s:PrepareToRunTests()
-  if ! g:vroom_use_vimux
-    call s:ClearScreen()
-  end
-
-  call s:WriteOrWriteAll()
-  call s:SetTestRunnerPrefix()
-  call s:SetColorFlag()
 endfunction
 
 " }}}
