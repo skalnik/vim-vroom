@@ -56,23 +56,18 @@ endif
 " Main functions {{{
 
 " Public: Run current test file, or last test run
-function vroom#RunTestFile()
-  call s:RunTestFile({})
-endfunction
-
-" Public: Run the nearest test in the current test file
-" Assumes your test framework supports filename:line# format
-function vroom#RunNearestTest()
-  call s:RunNearestTest({})
-endfunction
-
-" Public: Run current test file, or last test run with custom options.
 "
 " args     - options for running the tests:
 "            'runner': the test runner to use (e.g., 'm')
-"            'opts': any additional options (e.g., '--drb')
-function vroom#RunTestFileCustom(args)
-  call s:RunTestFile(a:args)
+"            'options': any additional options (e.g., '--drb')
+function vroom#RunTestFile(...)
+  if a:0
+    let opts = a:1
+  else
+    let opts = {}
+  endif
+
+  call s:RunTestFile(opts)
 endfunction
 
 " Public: Run the nearest test in the current test file
@@ -80,9 +75,15 @@ endfunction
 "
 " args     - options for running the tests:
 "            'runner': the test runner to use (e.g., 'm')
-"            'opts': any additional options (e.g., '--drb')
-function vroom#RunNearestTestCustom(args)
-  call s:RunNearestTest(a:args)
+"            'options': any additional options (e.g., '--drb')
+function vroom#RunNearestTest(...)
+  if a:0
+    let opts = a:1
+  else
+    let opts = {}
+  endif
+
+  call s:RunNearestTest(opts)
 endfunction
 
 " }}}
@@ -107,7 +108,7 @@ endfunction
 " number
 function s:RunNearestTest(args)
   let spec_line_number = ':' . line('.')
-  let updated_args = extend(a:args, {'line':spec_line_number })
+  let updated_args = s:Merge(a:args, {'line':spec_line_number})
 
   call s:RunTestFile(updated_args)
 endfunction
@@ -117,7 +118,7 @@ endfunction
 " filename - a filename.
 " args     - options for running the tests:
 "            'runner': the test runner to use (e.g., 'm')
-"            'opts': any additional options (e.g., '--drb')
+"            'options': any additional options (e.g., '--drb')
 "            'line_number': the line number of the test to run (e.g., ':4')
 function s:RunTests(filename, args)
   call s:PrepareToRunTests()
@@ -176,6 +177,20 @@ function s:WriteOrWriteAll()
   else
     :w
   endif
+endfunction
+
+" Internal: Merge a pair of dictionaries non-destructively.
+"
+" dictionary1 - the dictionary that is to be merged into.
+" dictionary2 - the dictionary that is to be merged in.
+"
+" Returns a dictionary.
+function s:Merge(dictionary1, dictionary2)
+  let dictionary = {}
+  call extend(dictionary, a:dictionary1)
+  call extend(dictionary, a:dictionary2)
+
+  return dictionary
 endfunction
 
 " }}}

@@ -37,9 +37,22 @@ COMMANDS                                                       *vroom-commands*
                         the last test file that was run.
 
 :VroomRunNearestTest                                      *VroomRunNearestTest*
-
                         Runs the nearest test in the current file if it's a
                         test. Otherwise, runs the last test that was run.
+                        
+                        NOTICE:
+                        Both of these commands can take pass a dictionary of
+                        arguments to this function.  The two recognized keys
+                        are 'runner' and 'options'.  Use 'runner' to specify the
+                        full command for an alternate runner.  Use 'options' for
+                        any command line switches you want to add.
+                        Examples:
+                        :call vroom#RunTestFile({'runner':'spin serve'})
+                        " calls `spin serve file-to-be-tested`
+                        :call vroom#RunTestFile({'options':'--drb'}) "
+                        " if called with rspec, calls
+                        " `bundle exec rspec --drb file-to-be-tested`
+                        " (for if you are using Spork)
 
 -------------------------------------------------------------------------------
 KEY MAPPINGS                                               *vroom-key-mappings*
