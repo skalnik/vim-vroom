@@ -96,8 +96,8 @@ g:vroom_use_vimux                                             *vroom_use_vimux*
 g:vroom_use_bundle_exec                                 *vroom_use_bundle_exec*
                         When appropriate (see |vroom_detect_spec_helper|) use
                         `bundle exec` before test runner command.  If set to
-                        1, `bundle exec` is never used.
-                        Default: 0
+                        0, `bundle exec` is never used.
+                        Default: 1
 
 g:vroom_use_binstubs                                       *vroom_use_binstubs*
                         If set to 1, lets Vroom know you are using binstubs.
