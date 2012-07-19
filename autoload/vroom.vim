@@ -52,6 +52,10 @@ if !exists("g:vroom_binstubs_path")
   let g:vroom_binstubs_path = './bin'
 endif
 
+if !exists("g:vroom_test_unit_command")
+  let g:vroom_test_unit_command = 'ruby -Itest '
+endif
+
 " }}}
 " Main functions {{{
 
@@ -137,7 +141,7 @@ function s:DetermineRunner(filename)
   elseif match(a:filename, '\.feature') != -1
     return s:Run(s:test_runner_prefix . g:vroom_cucumber_path . s:color_flag
   elseif match(a:filename, "_test.rb") != -1
-    return "ruby -Itest"
+    return s:test_runner_prefix . g:vroom_test_unit_command
   end
 endfunction
 

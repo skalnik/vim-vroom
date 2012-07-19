@@ -113,10 +113,15 @@ g:vroom_binstubs_path                                     *vroom_binstubs_path*
                         automatically and should not be included.
                         Default: './bin'
 
-g:vroom_spec_command                                      *vroom_spec_command*
+g:vroom_spec_command                                       *vroom_spec_command*
                         This lets you specify the command that runs your
                         specs, e.g. for rspec 1.x, you can use 'spec '.
                         Default: 'rspec '
+
+g:vroom_test_unit_command                             *vroom_test_unit_command*
+                        This lets you specify the command that runs your
+                        tests, e.g. you can use 'm ' or 'testrbl '.
+                        Default: 'ruby -Itest '
 
 ===============================================================================
 LICENSE                                                         *vroom-license*
