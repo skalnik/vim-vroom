@@ -125,7 +125,7 @@ endfunction
 "            'options': any additional options (e.g., '--drb')
 "            'line_number': the line number of the test to run (e.g., ':4')
 function s:RunTests(filename, args)
-  call s:PrepareToRunTests()
+  call s:PrepareToRunTests(a:filename)
 
   let runner        = get(a:args, 'runner', s:DetermineRunner(a:filename))
   let opts          = get(a:args, 'options', ''                          )
@@ -148,13 +148,13 @@ endfunction
 " Internal: Perform all the steps we need to perform before actually running
 " the tests: clear the screen, write the files, set the test_runner_prefix,
 " set the color_flag.
-function s:PrepareToRunTests()
+function s:PrepareToRunTests(filename)
   if ! g:vroom_use_vimux
     call s:ClearScreen()
   end
 
   call s:WriteOrWriteAll()
-  call s:SetTestRunnerPrefix()
+  call s:SetTestRunnerPrefix(a:filename)
   call s:SetColorFlag()
 endfunction
 
@@ -201,16 +201,20 @@ endfunction
 " Settings (functions to determine) {{{
 
 " Internal: Set s:test_runner_prefix variable
-function s:SetTestRunnerPrefix()
+function s:SetTestRunnerPrefix(filename)
   let s:test_runner_prefix = ''
-  call s:IsUsingBundleExec()
+  call s:IsUsingBundleExec(a:filename)
   call s:IsUsingBinstubs()
 endfunction
 
 " Internal: Check for a Gemfile if we are using `bundle exec`
-function s:IsUsingBundleExec()
+function s:IsUsingBundleExec(filename)
   if g:vroom_use_bundle_exec
-    call s:CheckForGemfile()
+    if g:vroom_detect_spec_helper
+      call s:CheckForSpecHelper(a:filename)
+    else
+      call s:CheckForGemfile()
+    endif
   endif
 endfunction
 
