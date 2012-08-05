@@ -111,8 +111,16 @@ endfunction
 " Internal: Runs the current or last test with the currently selected line
 " number
 function s:RunNearestTest(args)
-  let spec_line_number = ':' . line('.')
-  let updated_args = s:Merge(a:args, {'line':spec_line_number})
+  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
+
+  if in_test_file
+    call s:SetNearestTest()
+  elseif !exists("t:vroom_nearest_test")
+    return
+  end
+
+  let test_line = ':' . t:vroom_nearest_test
+  let updated_args = s:Merge(a:args, {'line':test_line})
 
   call s:RunTestFile(updated_args)
 endfunction
@@ -257,6 +265,11 @@ endfunction
 function s:SetTestFile()
   " Set the test file that tests will be run for.
   let t:vroom_test_file=@%
+endfunction
+
+" Internal: Sets t:vroom_nearest_test to current line
+function s:SetNearestTest()
+  let t:vroom_nearest_test = line('.')
 endfunction
 
 " Internal: Sets s:color_flag to the correct color flag as configured
