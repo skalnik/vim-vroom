@@ -56,7 +56,7 @@ if !exists("g:vroom_test_unit_command")
   let g:vroom_test_unit_command = 'ruby -Itest '
 endif
 
-if !(exists("g:vroom_rspec_version")
+if !exists("g:vroom_rspec_version")
   let g:vroom_rspec_version = '2.x'
 endif
 
@@ -290,7 +290,7 @@ function s:SetColorFlag()
     else
       let s:color_flag = ""
     endif
-  end
+  endif
 
 endfunction
 
