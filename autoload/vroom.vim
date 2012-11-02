@@ -56,6 +56,10 @@ if !exists("g:vroom_test_unit_command")
   let g:vroom_test_unit_command = 'ruby -Itest '
 endif
 
+if !exists("g:vroom_rspec_version")
+  let g:vroom_rspec_version = '2.x'
+endif
+
 " }}}
 " Main functions {{{
 
@@ -274,11 +278,20 @@ endfunction
 
 " Internal: Sets s:color_flag to the correct color flag as configured
 function s:SetColorFlag()
-  if g:vroom_use_colors
-    let s:color_flag = " --color"
+  if g:vroom_rspec_version == "2.x"
+    if g:vroom_use_colors
+      let s:color_flag = " --color"
+    else
+      let s:color_flag = " --no-color"
+    endif
   else
-    let s:color_flag = " --no-color"
+    if g:vroom_use_colors
+      let s:color_flag = " --color"
+    else
+      let s:color_flag = ""
+    endif
   endif
+
 endfunction
 
 " }}}

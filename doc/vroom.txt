@@ -123,6 +123,12 @@ g:vroom_test_unit_command                             *vroom_test_unit_command*
                         tests, e.g. you can use 'm ' or 'testrbl '.
                         Default: 'ruby -Itest '
 
+g:vroom_rspec_version                                     *vroom_rspec_version*
+                        This lets you specify the rspec version. It's used
+                        to choose rspec version-specific command line args
+                        (e.g. color). Use "1.x" or "2.x".
+                        Default: '2.x'
+
 ===============================================================================
 LICENSE                                                         *vroom-license*
 
