@@ -93,6 +93,10 @@ g:vroom_detect_spec_helper                           *vroom_detect_spec_helper*
 g:vroom_use_vimux                                             *vroom_use_vimux*
                         Run tests using the vimux plugin
 
+g:vroom_use_spring                                           *vroom_use_spring*
+                        This lets you specify to use spring.
+                        Default: 0
+
 g:vroom_use_bundle_exec                                 *vroom_use_bundle_exec*
                         When appropriate (see |vroom_detect_spec_helper|) use
                         `bundle exec` before test runner command.  If set to

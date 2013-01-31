@@ -37,6 +37,10 @@ if !exists("g:vroom_use_bundle_exec")
   let g:vroom_use_bundle_exec = 1
 endif
 
+if !exists("g:vroom_use_spring")
+  let g:vroom_use_spring = 0
+endif
+
 " If we are using binstubs, we usually don't want to bundle exec.  Note that
 " this has to come before the g:vroom_use_binstubs variable is set below.
 if exists("g:vroom_use_binstubs")
@@ -218,6 +222,7 @@ function s:SetTestRunnerPrefix(filename)
   let s:test_runner_prefix = ''
   call s:IsUsingBundleExec(a:filename)
   call s:IsUsingBinstubs()
+  call s:IsUsingSpring()
 endfunction
 
 " Internal: Check for a Gemfile if we are using `bundle exec`
@@ -235,6 +240,13 @@ endfunction
 function s:IsUsingBinstubs()
   if g:vroom_use_binstubs
     let s:test_runner_prefix = g:vroom_binstubs_path . '/'
+  endif
+endfunction
+
+" Internal: Set s:test_runner_prefix variable if using spring
+function s:IsUsingSpring()
+  if g:vroom_use_spring
+    let s:test_runner_prefix = "spring "
   endif
 endfunction
 
