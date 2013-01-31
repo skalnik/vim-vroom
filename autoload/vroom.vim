@@ -161,10 +161,9 @@ endfunction
 " the tests: clear the screen, write the files, set the test_runner_prefix,
 " set the color_flag.
 function s:PrepareToRunTests(filename)
-  if ! g:vroom_use_vimux
+  if g:vroom_clear_screen
     call s:ClearScreen()
-  end
-
+  endif
   call s:WriteOrWriteAll()
   call s:SetTestRunnerPrefix(a:filename)
   call s:SetColorFlag()
@@ -181,7 +180,9 @@ endfunction
 
 " Internal: Clear the screen prior to running specs
 function s:ClearScreen()
-  if g:vroom_clear_screen
+  if g:vroom_use_vimux
+    call RunVimTmuxCommand("clear")
+  else
     :silent !clear
   endif
 endfunction
