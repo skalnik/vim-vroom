@@ -5,6 +5,10 @@ if exists("g:loaded_vroom") || &cp
 endif
 let g:loaded_vroom = 1
 
+if !exists("g:vroom_ignore_color_flag")
+  let g:vroom_ignore_color_flag = 0
+endif
+
 if !exists("g:vroom_spec_command")
   let g:vroom_spec_command = 'rspec '
 endif
@@ -291,20 +295,23 @@ endfunction
 
 " Internal: Sets s:color_flag to the correct color flag as configured
 function s:SetColorFlag()
-  if g:vroom_rspec_version == "2.x"
-    if g:vroom_use_colors
-      let s:color_flag = " --color"
-    else
-      let s:color_flag = " --no-color"
-    endif
+  if g:vroom_ignore_color_flag
+    let s:color_flag = ""
   else
-    if g:vroom_use_colors
-      let s:color_flag = " --color"
+    if g:vroom_rspec_version == "2.x"
+      if g:vroom_use_colors
+        let s:color_flag = " --color"
+      else
+        let s:color_flag = " --no-color"
+      endif
     else
-      let s:color_flag = ""
+      if g:vroom_use_colors
+        let s:color_flag = " --color"
+      else
+        let s:color_flag = ""
+      endif
     endif
-  endif
-
+  end
 endfunction
 
 " }}}
