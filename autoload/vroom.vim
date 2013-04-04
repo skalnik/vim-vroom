@@ -176,7 +176,7 @@ endfunction
 " Internal: Runs a command though vim or vmux
 function s:Run(cmd)
   if g:vroom_use_vimux
-    call RunVimTmuxCommand(a:cmd)
+    call VimuxRunCommand(a:cmd)
   else
     exec ":!" . a:cmd
   end
@@ -185,7 +185,7 @@ endfunction
 " Internal: Clear the screen prior to running specs
 function s:ClearScreen()
   if g:vroom_use_vimux
-    call RunVimTmuxCommand("clear")
+    call VimuxRunCommand("clear")
   else
     :silent !clear
   endif
