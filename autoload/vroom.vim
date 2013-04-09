@@ -64,6 +64,10 @@ if !exists("g:vroom_rspec_version")
   let g:vroom_rspec_version = '2.x'
 endif
 
+if !exists("g:vroom_use_zeus")
+  let g:vroom_use_zeus = 1
+endif
+
 " }}}
 " Main functions {{{
 
@@ -170,7 +174,11 @@ function s:PrepareToRunTests(filename)
   endif
   call s:WriteOrWriteAll()
   call s:SetTestRunnerPrefix(a:filename)
-  call s:SetColorFlag()
+  if s:usingZeus()
+    let s:color_flag = ""
+  else
+    call s:SetColorFlag()
+  endif
 endfunction
 
 " Internal: Runs a command though vim or vmux
@@ -220,10 +228,37 @@ endfunction
 " Internal: Set s:test_runner_prefix variable
 function s:SetTestRunnerPrefix(filename)
   let s:test_runner_prefix = ''
+  call s:IsUsingZeus()
   call s:IsUsingBundleExec(a:filename)
   call s:IsUsingBinstubs()
   call s:IsUsingSpring()
 endfunction
+
+" Internal: Check for .zeus.sock and use zeus instead of bundler
+function s:IsUsingZeus()
+  if s:usingZeus()
+    if !exists("s:vroom_use_bundle_exec_original")
+      let s:vroom_use_bundle_exec_original = g:vroom_use_bundle_exec
+    endif
+    let g:vroom_use_bundle_exec = 0
+
+    let s:test_runner_prefix = "zeus "
+  else
+    if exists("s:vroom_use_bundle_exec_original")
+      let g:vroom_use_bundle_exec = s:vroom_use_bundle_exec_original
+    endif
+  endif
+endfunction
+
+" Internal: Using Zeus ?
+function s:usingZeus()
+  if g:vroom_use_zeus && glob(".zeus.sock") != ""
+    return 1
+  else
+    return 0
+  endif
+endfunction
+
 
 " Internal: Check for a Gemfile if we are using `bundle exec`
 function s:IsUsingBundleExec(filename)

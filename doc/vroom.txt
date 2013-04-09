@@ -39,7 +39,7 @@ COMMANDS                                                       *vroom-commands*
 :VroomRunNearestTest                                      *VroomRunNearestTest*
                         Runs the nearest test in the current file if it's a
                         test. Otherwise, runs the last test that was run.
-                        
+
                         NOTICE:
                         Both of these commands can take pass a dictionary of
                         arguments to this function.  The two recognized keys
@@ -132,6 +132,12 @@ g:vroom_rspec_version                                     *vroom_rspec_version*
                         to choose rspec version-specific command line args
                         (e.g. color). Use "1.x" or "2.x".
                         Default: '2.x'
+
+g:vroom_use_zeus                                      *vroom_use_zeus*
+                        This lets you specify to use zeus instead of bundler,
+                        if zeus is not running, it will fallback to using
+                        bundler.
+                        Default: 1
 
 ===============================================================================
 LICENSE                                                         *vroom-license*
