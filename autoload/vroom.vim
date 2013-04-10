@@ -181,7 +181,7 @@ endfunction
 function s:Run(cmd)
   if g:vroom_use_vimux
     call RunVimTmuxCommand(a:cmd)
-  elseif g:vroom_use_dispatch
+  elseif g:vroom_use_dispatch && exists(':Dispatch')
     exec ":Dispatch " . a:cmd
   else
     exec ":!" . a:cmd
