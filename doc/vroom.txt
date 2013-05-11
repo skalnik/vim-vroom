@@ -97,6 +97,10 @@ g:vroom_use_spring                                           *vroom_use_spring*
                         This lets you specify to use spring.
                         Default: 0
 
+g:vroom_use_dipatch                                        *vroom_use_dispatch*
+                        Run tests using the dispatch plugin
+                        Default: 0
+
 g:vroom_use_bundle_exec                                 *vroom_use_bundle_exec*
                         When appropriate (see |vroom_detect_spec_helper|) use
                         `bundle exec` before test runner command.  If set to

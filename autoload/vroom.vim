@@ -33,6 +33,10 @@ if !exists("g:vroom_use_vimux")
   let g:vroom_use_vimux = 0
 endif
 
+if !exists("g:vroom_use_dispatch")
+  let g:vroom_use_dispatch = 0
+endif
+
 if !exists("g:vroom_use_bundle_exec")
   let g:vroom_use_bundle_exec = 1
 endif
@@ -185,6 +189,8 @@ endfunction
 function s:Run(cmd)
   if g:vroom_use_vimux
     call VimuxRunCommand(a:cmd)
+  elseif g:vroom_use_dispatch && exists(':Dispatch')
+    exec ":Dispatch " . a:cmd
   else
     exec ":!" . a:cmd
   end
