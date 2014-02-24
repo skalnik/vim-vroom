@@ -196,12 +196,11 @@ function s:Run(cmd)
   end
 endfunction
 
-" Internal: Clear the screen prior to running specs
+" Internal: Clear the screen prior to running specs for vimux
+" Otherwise, prefix the command with a clear.
 function s:ClearScreen()
   if g:vroom_use_vimux
     call VimuxRunCommand("clear")
-  else
-    :silent !clear
   endif
 endfunction
 
@@ -238,6 +237,7 @@ function s:SetTestRunnerPrefix(filename)
   call s:IsUsingBundleExec(a:filename)
   call s:IsUsingBinstubs()
   call s:IsUsingSpring()
+  call s:IsClearScreenEnabled()
 endfunction
 
 " Internal: Check for .zeus.sock and use zeus instead of bundler
@@ -288,6 +288,14 @@ endfunction
 function s:IsUsingSpring()
   if g:vroom_use_spring
     let s:test_runner_prefix = "spring "
+  endif
+endfunction
+
+" Internal: Check to see if we should clear the screen and prefixes
+"           s:test_runner_prefix as neessary
+function s:IsClearScreenEnabled()
+  if g:vroom_clear_screen && !g:vroom_use_vimux
+    let s:test_runner_prefix = "clear; " . s:test_runner_prefix
   endif
 endfunction
 
