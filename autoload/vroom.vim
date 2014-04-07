@@ -25,6 +25,10 @@ if !exists("g:vroom_cucumber_path")
   let g:vroom_cucumber_path = './script/cucumber '
 endif
 
+if !exists("g:vroom_cucumber_options")
+  let g:vroom_cucumber_options = ''
+endif
+
 if !exists("g:vroom_detect_spec_helper")
   let g:vroom_detect_spec_helper = 0
 endif
@@ -163,7 +167,7 @@ function s:DetermineRunner(filename)
   if match(a:filename, '_spec.rb') != -1
     return s:test_runner_prefix . g:vroom_spec_command . s:color_flag
   elseif match(a:filename, '\.feature') != -1
-    return s:test_runner_prefix . g:vroom_cucumber_path . s:color_flag
+    return s:test_runner_prefix . g:vroom_cucumber_path . g:vroom_cucumber_options . s:color_flag
   elseif match(a:filename, "_test.rb") != -1
     return s:test_runner_prefix . g:vroom_test_unit_command
   end
