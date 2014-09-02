@@ -9,6 +9,10 @@ if !exists("g:vroom_spec_command")
   let g:vroom_spec_command = 'rspec '
 endif
 
+if !exists("g:vroom_mix_command")
+  let g:vroom_mix_test_command = 'mix test '
+endif
+
 if !exists("g:vroom_use_colors")
   let g:vroom_use_colors = !has('gui_running')
 endif
@@ -117,7 +121,7 @@ endfunction
 " next time the function is called in a non-test file, it runs the last test
 function s:RunTestFile(args)
   " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
+  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.exs\|_test.rb\)$') != -1
 
   if in_test_file
     call s:SetTestFile()
@@ -170,6 +174,8 @@ function s:DetermineRunner(filename)
     return s:test_runner_prefix . g:vroom_cucumber_path . g:vroom_cucumber_options . s:color_flag
   elseif match(a:filename, "_test.rb") != -1
     return s:test_runner_prefix . g:vroom_test_unit_command
+  elseif match(a:filename, "_test.exs") != -1
+    return g:vroom_mix_test_command . s:color_flag
   end
 endfunction
 
