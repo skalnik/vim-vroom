@@ -110,6 +110,15 @@ function vroom#RunNearestTest(...)
   call s:RunNearestTest(opts)
 endfunction
 
+" Public: Run the last executed test.
+function vroom#RunLastTest()
+  if exists('g:vroom_last_cmd')
+    call s:Run(g:vroom_last_cmd)
+  else
+    echo 'No test was run.'
+  endif
+endfunction
+
 " }}}
 " Internal helper functions {{{
 
@@ -191,6 +200,7 @@ endfunction
 
 " Internal: Runs a command though vim or vmux
 function s:Run(cmd)
+  let g:vroom_last_cmd = a:cmd
   if g:vroom_use_vimux
     call VimuxRunCommand(a:cmd)
   elseif g:vroom_use_dispatch && exists(':Dispatch')
