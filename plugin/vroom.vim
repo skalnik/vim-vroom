@@ -7,6 +7,7 @@
 
 command! -nargs=0 VroomRunTestFile call vroom#RunTestFile()
 command! -nargs=0 VroomRunNearestTest call vroom#RunNearestTest()
+command! VroomRunLastTest call vroom#RunLastTest()
 
 if !exists("g:vroom_map_keys")
   let g:vroom_map_keys = 1
@@ -15,4 +16,5 @@ endif
 if g:vroom_map_keys
   silent! map <unique> <Leader>r :VroomRunTestFile<CR>
   silent! map <unique> <Leader>R :VroomRunNearestTest<CR>
+  silent! map <unique> <Leader>l :VroomRunLastTest<CR>
 endif

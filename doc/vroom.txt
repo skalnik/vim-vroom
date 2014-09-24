@@ -54,12 +54,16 @@ COMMANDS                                                       *vroom-commands*
                         " `bundle exec rspec --drb file-to-be-tested`
                         " (for if you are using Spork)
 
+:VroomRunLastTest                                            *VroomRunLastTest*
+                        Runs the last executed test. Can be executed from any
+                        buffer, window or tab.
+
 -------------------------------------------------------------------------------
 KEY MAPPINGS                                               *vroom-key-mappings*
 
-By default vroom maps <Leader>r to |VroomRunTestFile| and <Leader>R to
-|VroomRunNearestTest|. This can be turned off by simply putting `let
-g:vroom_map_keys = 0` in your vimrc.
+By default vroom maps <Leader>r to |VroomRunTestFile|, <Leader>R to
+|VroomRunNearestTest| and <Leader>l to VroomRunLastTest. This can be turned off
+by simply putting `let g:vroom_map_keys = 0` in your vimrc.
 
 ===============================================================================
 CUSTOMIZATION                                             *vroom-customization*
