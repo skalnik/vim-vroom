@@ -198,7 +198,6 @@ function s:PrepareToRunTests(filename)
   call s:WriteOrWriteAll()
   call s:SetTestRunnerPrefix(a:filename)
   call s:SetColorFlag()
-  endif
 endfunction
 
 " Internal: Runs a command though vim or vmux
