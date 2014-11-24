@@ -197,10 +197,7 @@ function s:PrepareToRunTests(filename)
   endif
   call s:WriteOrWriteAll()
   call s:SetTestRunnerPrefix(a:filename)
-  if s:usingZeus()
-    let s:color_flag = ""
-  else
-    call s:SetColorFlag()
+  call s:SetColorFlag()
   endif
 endfunction
 
