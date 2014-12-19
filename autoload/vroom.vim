@@ -25,6 +25,14 @@ if !exists("g:vroom_write_all")
   let g:vroom_write_all = 0
 endif
 
+if !exists("g:vroom_konacha_command")
+  let g:vroom_konacha_command = 'rake konacha:run '
+endif
+
+if !exists("g:vroom_konacha_spec_root")
+  let g:vroom_konacha_spec_root = 'spec/javascripts/'
+endif
+
 if !exists("g:vroom_cucumber_path")
   let g:vroom_cucumber_path = './script/cucumber '
 endif
@@ -130,7 +138,7 @@ endfunction
 " next time the function is called in a non-test file, it runs the last test
 function s:RunTestFile(args)
   " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.exs\|_test.rb\)$') != -1
+  let in_test_file = match(expand("%"), '\(\.feature\|_spec\.rb\|_test\.exs\|_test\.rb\|_spec\.js.*\)$') != -1
 
   if in_test_file
     call s:SetTestFile()
@@ -144,7 +152,7 @@ endfunction
 " Internal: Runs the current or last test with the currently selected line
 " number
 function s:RunNearestTest(args)
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
+  let in_test_file = match(expand("%"), '\(\.feature\|_spec\.rb\|_test\.rb\|_spec\.js.*\)$') != -1
 
   if in_test_file
     call s:SetNearestTest()
@@ -168,23 +176,35 @@ endfunction
 function s:RunTests(filename, args)
   call s:PrepareToRunTests(a:filename)
 
-  let runner        = get(a:args, 'runner', s:DetermineRunner(a:filename))
-  let opts          = get(a:args, 'options', ''                          )
-  let line_number   = get(a:args, 'line',    ''                          )
+  let runner        = get(a:args, 'runner',   s:DetermineRunner(a:filename))
+  let opts          = get(a:args, 'options',  ''                           )
+  let line_number   = get(a:args, 'line',     ''                           )
+  let filename      = s:DetermineFileArgument(a:filename)
 
-  call s:Run(runner . ' ' . opts . ' ' . a:filename . line_number)
+  call s:Run(runner . ' ' . opts . ' ' . filename . line_number)
+endfunction
+
+" Internal: Get the right file argument for the test.
+function s:DetermineFileArgument(filename)
+  if match(a:filename, '_spec\.js') != -1
+    return 'SPEC=' . substitute(a:filename, '^' . g:vroom_konacha_spec_root, '', '')
+  else
+    return a:filename
+  end
 endfunction
 
 " Internal: Get the right test runner for the file.
 function s:DetermineRunner(filename)
-  if match(a:filename, '_spec.rb') != -1
+  if match(a:filename, '_spec\.rb$') != -1
     return s:test_runner_prefix . g:vroom_spec_command . s:color_flag
-  elseif match(a:filename, '\.feature') != -1
+  elseif match(a:filename, '\.feature$') != -1
     return s:test_runner_prefix . g:vroom_cucumber_path . g:vroom_cucumber_options . s:color_flag
-  elseif match(a:filename, "_test.rb") != -1
+  elseif match(a:filename, '_test\.rb$') != -1
     return s:test_runner_prefix . g:vroom_test_unit_command
-  elseif match(a:filename, "_test.exs") != -1
+  elseif match(a:filename, '_test\.exs$') != -1
     return g:vroom_mix_test_command . s:color_flag
+  elseif match(a:filename, '_spec\.js') != -1
+    return s:test_runner_prefix . g:vroom_konacha_command
   end
 endfunction
 

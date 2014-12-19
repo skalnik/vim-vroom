@@ -1,8 +1,8 @@
 vroom.vim
 =========
 
-Run your Ruby tests! Supports RSpec, Test::Unit/MiniTest, and Cucumber. For more
-information, check out the
+Run your Ruby tests! Supports RSpec, Test::Unit/MiniTest, Konacha, and Cucumber.
+For more information, check out the
 [documentation](http://vim-doc.heroku.com/view?https://raw.githubusercontent.com/skalnik/vim-vroom/master/doc/vroom.txt)
 (available in Vim after installation `:help vroom`)
 

@@ -146,11 +146,20 @@ g:vroom_rspec_version                                     *vroom_rspec_version*
                         (e.g. color). Use "1.x" or "2.x".
                         Default: '2.x'
 
-g:vroom_use_zeus                                      *vroom_use_zeus*
+g:vroom_use_zeus                                               *vroom_use_zeus*
                         This lets you specify to use zeus instead of bundler,
                         if zeus is not running, it will fallback to using
                         bundler.
                         Default: 1
+
+g:vroom_konacha_command                                 *vroom_konacha_command*
+                        This lets you specify the command to run konacha.
+                        Default: 'rake konacha:run'
+
+g:vroom_konacha_spec_root                             *vroom_konacha_spec_root*
+                        This lets you specify the root folder of the
+                        javascript unit tests within the project.
+                        Default: 'spec/javascripts/'
 
 ===============================================================================
 LICENSE                                                         *vroom-license*
