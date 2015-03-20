@@ -138,7 +138,7 @@ endfunction
 " next time the function is called in a non-test file, it runs the last test
 function s:RunTestFile(args)
   " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(\.feature\|_spec\.rb\|_test\.exs\|_test\.rb\|_spec\.js.*\)$') != -1
+  let in_test_file = match(expand("%"), '\(\/test_.*\.rb\)\|\(\.feature\|_spec\.rb\|_test\.exs\|_test\.rb\|_spec\.js.*\)$') != -1
 
   if in_test_file
     call s:SetTestFile()
@@ -199,6 +199,8 @@ function s:DetermineRunner(filename)
     return s:test_runner_prefix . g:vroom_spec_command . s:color_flag
   elseif match(a:filename, '\.feature$') != -1
     return s:test_runner_prefix . g:vroom_cucumber_path . g:vroom_cucumber_options . s:color_flag
+  elseif match(a:filename, '\/test_.*\.rb$') != -1
+    return s:test_runner_prefix . g:vroom_test_unit_command
   elseif match(a:filename, '_test\.rb$') != -1
     return s:test_runner_prefix . g:vroom_test_unit_command
   elseif match(a:filename, '_test\.exs$') != -1
