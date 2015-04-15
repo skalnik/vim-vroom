@@ -41,7 +41,7 @@ COMMANDS                                                       *vroom-commands*
                         test. Otherwise, runs the last test that was run.
 
                         NOTICE:
-                        Both of these commands can take pass a dictionary of
+                        Both of these commands can take a dictionary of
                         arguments to this function.  The two recognized keys
                         are 'runner' and 'options'.  Use 'runner' to specify the
                         full command for an alternate runner.  Use 'options' for
