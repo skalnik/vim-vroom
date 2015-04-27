@@ -53,6 +53,10 @@ if !exists("g:vroom_use_dispatch")
   let g:vroom_use_dispatch = 0
 endif
 
+if !exists("g:vroom_use_vimshell")
+  let g:vroom_use_vimshell = 0
+endif
+
 if !exists("g:vroom_use_bundle_exec")
   let g:vroom_use_bundle_exec = 1
 endif
@@ -231,6 +235,8 @@ function s:Run(cmd)
   let g:vroom_last_cmd = a:cmd
   if g:vroom_use_vimux
     call VimuxRunCommand(a:cmd)
+  elseif g:vroom_use_vimshell
+    exec "VimShellExecute " . a:cmd
   elseif g:vroom_use_dispatch && exists(':Dispatch')
     exec ":Dispatch " . a:cmd
   else
@@ -336,7 +342,7 @@ endfunction
 " Internal: Check to see if we should clear the screen and prefixes
 "           s:test_runner_prefix as neessary
 function s:IsClearScreenEnabled()
-  if g:vroom_clear_screen && !g:vroom_use_vimux
+  if g:vroom_clear_screen && !g:vroom_use_vimux && !g:vroom_use_vimshell
     let s:test_runner_prefix = "clear; " . s:test_runner_prefix
   endif
 endfunction

@@ -110,6 +110,10 @@ g:vroom_use_dispatch                                       *vroom_use_dispatch*
                         Run tests using the dispatch plugin
                         Default: 0
 
+g:vroom_use_vimshell                                       *vroom_use_vimshell*
+                        Run tests using the vimshell plugin
+                        Default: 0
+
 g:vroom_use_bundle_exec                                 *vroom_use_bundle_exec*
                         When appropriate (see |vroom_detect_spec_helper|) use
                         `bundle exec` before test runner command.  If set to
