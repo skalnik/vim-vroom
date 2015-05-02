@@ -9,7 +9,7 @@ if !exists("g:vroom_spec_command")
   let g:vroom_spec_command = 'rspec '
 endif
 
-if !exists("g:vroom_mix_command")
+if !exists("g:vroom_mix_test_command")
   let g:vroom_mix_test_command = 'mix test '
 endif
 
@@ -156,7 +156,7 @@ endfunction
 " Internal: Runs the current or last test with the currently selected line
 " number
 function s:RunNearestTest(args)
-  let in_test_file = match(expand("%"), '\(\.feature\|_spec\.rb\|_test\.rb\|_spec\.js.*\)$') != -1
+  let in_test_file = match(expand("%"), '\(\.feature\|_spec\.rb\|_test\.exs\|_test\.rb\|_spec\.js.*\)$') != -1
 
   if in_test_file
     call s:SetNearestTest()
