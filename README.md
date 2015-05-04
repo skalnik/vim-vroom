@@ -31,7 +31,7 @@ Copy and paste:
 Oddities
 --------
 
-If you're using MacVim & rbenv and your tests are running under the wrong Ruby version, check out
+If you're using MacVim & (rbenv or rvm) and your tests are running under the wrong Ruby version, check out
 [this](http://vim.1045645.n5.nabble.com/MacVim-and-PATH-td3388705.html#a3392363) fix.
 
 Credit
