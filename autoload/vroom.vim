@@ -223,11 +223,7 @@ function s:PrepareToRunTests(filename)
   endif
   call s:WriteOrWriteAll()
   call s:SetTestRunnerPrefix(a:filename)
-  if s:usingZeus()
-    let s:color_flag = ""
-  else
-    call s:SetColorFlag()
-  endif
+  call s:SetColorFlag()
 endfunction
 
 " Internal: Runs a command though vim or vmux
