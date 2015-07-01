@@ -3,7 +3,7 @@ vroom.vim
 
 Run your Ruby tests! Supports RSpec, Test::Unit/MiniTest, Konacha, and Cucumber.
 For more information, check out the
-[documentation](https://github.com/skalnik/vim-vroom/master/doc/vroom.txt)
+[documentation](https://github.com/skalnik/vim-vroom/blob/master/doc/vroom.txt)
 (available in Vim after installation `:help vroom`)
 
 Installation
