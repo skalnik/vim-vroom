@@ -354,7 +354,7 @@ function s:CheckForGemfile()
   endif
 endfunction
 
-" Internal: Checks for 'spec_helper' in file and Gemfile existance, and sets
+" Internal: Checks for 'spec_helper' in file and Gemfile existence, and sets
 "           s:test_runner_prefixs as necessary
 function s:CheckForSpecHelper(filename)
   if g:vroom_detect_spec_helper &&
