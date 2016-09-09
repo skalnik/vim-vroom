@@ -61,6 +61,10 @@ if !exists("g:vroom_use_vimshell")
   let g:vroom_use_vimshell = 0
 endif
 
+if !exists("g:vroom_use_terminal")
+  let g:vroom_use_terminal = 0
+endif
+
 if !exists("g:vroom_use_bundle_exec")
   let g:vroom_use_bundle_exec = 1
 endif
@@ -235,6 +239,8 @@ function s:Run(cmd)
   let g:vroom_last_cmd = a:cmd
   if g:vroom_use_vimux
     call VimuxRunCommand(a:cmd)
+  elseif g:vroom_use_terminal
+    call s:RunNeoTerminal(a:cmd)
   elseif g:vroom_use_vimshell
     exec "VimShellExecute " . a:cmd
   elseif g:vroom_use_dispatch && exists(':Dispatch')
@@ -242,6 +248,11 @@ function s:Run(cmd)
   else
     exec ":!" . a:cmd
   end
+endfunction
+
+function s:RunNeoTerminal(cmd)
+  let height=winheight(0) * 1/4
+  exec ":belowright " . height . "split | :terminal " . a:cmd
 endfunction
 
 " Internal: Clear the screen prior to running specs for vimux
