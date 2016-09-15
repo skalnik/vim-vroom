@@ -253,6 +253,7 @@ endfunction
 function s:RunNeoTerminal(cmd)
   let height=winheight(0) * 1/4
   exec ":belowright " . height . "split | :terminal " . a:cmd
+  exec ":stopinsert"
 endfunction
 
 " Internal: Clear the screen prior to running specs for vimux
