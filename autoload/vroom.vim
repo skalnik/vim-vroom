@@ -152,7 +152,7 @@ function s:RunTestFile(args)
   " Run the tests for the previously-marked file.
   let in_test_file = match(expand("%"), '\(\/test_.*\.rb\)\|\(\.feature\|_spec\.rb\|_test\.exs\|_test\.rb\|_spec\.js.*\)$') != -1
 
-  if in_test_file
+  if in_test_file && s:IsNeoTerminal() == 0
     call s:SetTestFile()
   elseif !exists("t:vroom_test_file")
     return
@@ -251,9 +251,23 @@ function s:Run(cmd)
 endfunction
 
 function s:RunNeoTerminal(cmd)
-  let height=winheight(0) * 1/4
-  exec ":belowright " . height . "split | :terminal " . a:cmd
+  " close previous openned buffer
+  if exists('t:vroom_terminal_bufnr') && bufexists(t:vroom_terminal_bufnr)
+    exec ":bd! ".t:vroom_terminal_bufnr
+  end
+
+  let height = winheight(0) * 1/4
+  exec ":belowright " . height . "split"
+
+  exec ":terminal " . a:cmd
+  " terminal runs by default in insert mode which kills the buffer after exit,
+  " let's change to normal mode
   exec ":stopinsert"
+  let t:vroom_terminal_bufnr = bufnr('%')
+endfunction
+
+function s:IsNeoTerminal()
+  return &buftype ==# 'terminal'
 endfunction
 
 " Internal: Clear the screen prior to running specs for vimux
@@ -268,7 +282,7 @@ endfunction
 function s:WriteOrWriteAll()
   if g:vroom_write_all
     :wall
-  else
+  elseif s:IsNeoTerminal() == 0
     :w
   endif
 endfunction
@@ -354,7 +368,7 @@ endfunction
 " Internal: Check to see if we should clear the screen and prefixes
 "           s:test_runner_prefix as neessary
 function s:IsClearScreenEnabled()
-  if g:vroom_clear_screen && !g:vroom_use_vimux && !g:vroom_use_vimshell
+  if g:vroom_clear_screen && !g:vroom_use_vimux && !g:vroom_use_vimshell && !g:vroom_use_terminal
     let s:test_runner_prefix = "clear; " . s:test_runner_prefix
   endif
 endfunction
