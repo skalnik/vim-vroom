@@ -98,13 +98,17 @@ g:vroom_detect_spec_helper                           *vroom_detect_spec_helper*
                         requires 'spec_helper'
                         Default: 0
 
-g:vroom_mix_test_command                                   *vroom_mix_test_command*
+g:vroom_mix_test_command                               *vroom_mix_test_command*
                         If set, the path for the executable
                         used to run ExUnit test files.
                         Default: 'mix test '
 
 g:vroom_use_vimux                                             *vroom_use_vimux*
                         Run tests using the vimux plugin
+
+g:vroom_use_terminal                                       *vroom_use_terminal*
+                        Run tests using Neovim's embedded terminal emulator
+                        Default: 0
 
 g:vroom_use_spring                                           *vroom_use_spring*
                         This lets you specify to use spring.
