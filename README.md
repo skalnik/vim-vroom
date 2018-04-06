@@ -16,9 +16,9 @@ Check out [vundle](https://github.com/gmarik/vundle) or
 
 Add the following to your `.vimrc` after vundle setup:
 
-    Bundle 'skalnik/vim-vroom'
+    Plugin 'skalnik/vim-vroom'
 
-and remember to run `:BundleInstall`.
+and remember to run `:PluginInstall`.
 
 ### pathogen
 
