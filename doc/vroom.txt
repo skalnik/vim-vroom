@@ -142,6 +142,16 @@ g:vroom_binstubs_path                                     *vroom_binstubs_path*
                         automatically and should not be included.
                         Default: './bin'
 
+g:vroom_command_prefix                                   *vroom_command_prefix*
+                        This lets you specify a prefix to all commands that
+                        vroom runs, such as a script that redirects commands
+                        to a Docker container or remote machine via ssh.
+                        For example, exec vroom commands in a Docker container
+                        for a specific project:
+                        `au BufReadPost */my-docker-project/* \`
+                        `let g:vroom_command_prefix='docker-compose exec cntnr'`
+                        Default: ''
+
 g:vroom_spec_command                                       *vroom_spec_command*
                         This lets you specify the command that runs your
                         specs, e.g. for rspec 1.x, you can use 'spec '.

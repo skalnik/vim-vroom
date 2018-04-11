@@ -88,6 +88,10 @@ if !exists("g:vroom_binstubs_path")
   let g:vroom_binstubs_path = './bin'
 endif
 
+if !exists("g:vroom_command_prefix")
+  let g:vroom_command_prefix = ''
+endif
+
 if !exists("g:vroom_test_unit_command")
   let g:vroom_test_unit_command = 'ruby -Itest '
 endif
@@ -311,6 +315,7 @@ function s:SetTestRunnerPrefix(filename)
   call s:IsUsingBundleExec(a:filename)
   call s:IsUsingBinstubs()
   call s:IsUsingSpring()
+  call s:PrependCommandPrefix()
   call s:IsClearScreenEnabled()
 endfunction
 
@@ -363,6 +368,11 @@ function s:IsUsingSpring()
   if g:vroom_use_spring
     let s:test_runner_prefix = "spring "
   endif
+endfunction
+
+" Internal: Prepend g:vroom_command_prefix (default: '') to s:test_runner_prefix
+function s:PrependCommandPrefix()
+  let s:test_runner_prefix = g:vroom_command_prefix . " " . s:test_runner_prefix
 endfunction
 
 " Internal: Check to see if we should clear the screen and prefixes
